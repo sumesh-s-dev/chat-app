@@ -1,22 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './store';
 import { setCurrentChatId, fetchMessages } from './store/chatSlice';
+import NewChatModal from './NewChatModal';
 
 const ChatSidebar: React.FC = () => {
   const dispatch = useDispatch();
   const { chats, currentChatId } = useSelector((state: RootState) => state.chat);
   const { user } = useSelector((state: RootState) => state.auth);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleSelect = (chatId: string) => {
     dispatch(setCurrentChatId(chatId));
     dispatch(fetchMessages(chatId) as any);
   };
 
+  const handleNewChat = (chatId?: string) => {
+    setModalOpen(false);
+    if (chatId) {
+      handleSelect(chatId);
+    }
+  };
+
   return (
     <aside className="chat-sidebar">
       <h3>Chats</h3>
-      <button className="new-chat-btn">+ New Chat</button>
+      <button className="new-chat-btn" onClick={() => setModalOpen(true)}>+ New Chat</button>
       <ul>
         {chats.map((chat: any) => (
           <li
@@ -30,6 +39,7 @@ const ChatSidebar: React.FC = () => {
           </li>
         ))}
       </ul>
+      <NewChatModal open={modalOpen} onClose={handleNewChat} />
     </aside>
   );
 };
