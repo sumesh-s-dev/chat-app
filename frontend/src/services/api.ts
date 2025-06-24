@@ -20,4 +20,5 @@ async function request(path: string, options: RequestInit = {}) {
 export const api = {
   get: (path: string) => request(path),
   post: (path: string, data?: any) => request(path, { method: 'POST', body: JSON.stringify(data) }),
+  searchUsers: (q: string) => request(`/user/search?q=${encodeURIComponent(q)}`),
 };
