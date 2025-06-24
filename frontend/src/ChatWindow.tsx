@@ -70,7 +70,7 @@ const ChatWindow: React.FC = () => {
           <div className="loading">Loading messages...</div>
         ) : (
           messages.map((msg: any) => (
-            <div key={msg._id} className={msg.sender._id === user.id ? 'message own' : 'message'}>
+            <div key={msg._id} className={user && msg.sender._id === user._id ? 'message own' : 'message'}>
               <span className="sender">{msg.sender.username}:</span>
               {msg.type === 'image' && msg.fileUrl ? (
                 <img src={msg.fileUrl.startsWith('http') ? msg.fileUrl : `${API_URL.replace('/api','')}${msg.fileUrl}`} alt={msg.content} className="chat-image" />

@@ -35,7 +35,7 @@ const ChatSidebar: React.FC = () => {
           >
             {chat.isGroup
               ? chat.name || 'Group Chat'
-              : chat.users.filter((u: any) => u._id !== user.id)[0]?.username || 'Direct Chat'}
+              : user && chat.users.filter((u: any) => u._id !== user._id)[0]?.username || 'Direct Chat'}
           </li>
         ))}
       </ul>

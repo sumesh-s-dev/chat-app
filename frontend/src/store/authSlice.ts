@@ -1,16 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api, setToken } from '../services/api';
 
+export interface User {
+  _id: string;
+  username: string;
+  email: string;
+}
+
 const tokenKey = 'chat_token';
 
-const initialState = {
+interface AuthState {
+  user: User | null;
+  token: string;
+  loading: boolean;
+  error: string;
+}
+
+const initialState: AuthState = {
   user: null,
   token: localStorage.getItem(tokenKey) || '',
   loading: false,
   error: '',
 };
 
-export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
+export const login = createAsyncThunk<{ user: User; token: string }, { email: string; password: string }>('auth/login', async (data, thunkAPI) => {
   try {
     const res = await api.post('/auth/login', data);
     localStorage.setItem(tokenKey, res.token);
@@ -21,7 +34,7 @@ export const login = createAsyncThunk('auth/login', async (data, thunkAPI) => {
   }
 });
 
-export const register = createAsyncThunk('auth/register', async (data, thunkAPI) => {
+export const register = createAsyncThunk<{ user: User; token: string }, { username: string; email: string; password: string }>('auth/register', async (data, thunkAPI) => {
   try {
     const res = await api.post('/auth/register', data);
     localStorage.setItem(tokenKey, res.token);

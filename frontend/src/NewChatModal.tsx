@@ -20,7 +20,7 @@ const NewChatModal: React.FC<{ open: boolean; onClose: (chatId?: string) => void
     setError('');
     try {
       const users = await api.searchUsers(query);
-      setResults(users.filter((u: any) => u._id !== user.id));
+      setResults(users.filter((u: any) => user && u._id !== user._id));
     } catch (err: any) {
       setError(err.message);
     }

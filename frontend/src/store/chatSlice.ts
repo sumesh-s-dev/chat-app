@@ -1,7 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '../services/api';
 
-const initialState = {
+// Types
+export interface User {
+  _id: string;
+  username: string;
+  email: string;
+}
+
+export interface Message {
+  _id: string;
+  chat: string;
+  sender: User;
+  content: string;
+  type: 'text' | 'image' | 'file';
+  fileUrl?: string;
+  createdAt?: string;
+}
+
+export interface Chat {
+  _id: string;
+  name?: string;
+  isGroup: boolean;
+  users: User[];
+  latestMessage?: Message;
+  admins?: User[];
+}
+
+interface ChatState {
+  chats: Chat[];
+  messages: Message[];
+  currentChatId: string;
+  loading: boolean;
+  error: string;
+}
+
+const initialState: ChatState = {
   chats: [],
   messages: [],
   currentChatId: '',
@@ -9,7 +43,7 @@ const initialState = {
   error: '',
 };
 
-export const fetchChats = createAsyncThunk('chat/fetchChats', async (_, thunkAPI) => {
+export const fetchChats = createAsyncThunk<Chat[]>('chat/fetchChats', async (_, thunkAPI) => {
   try {
     return await api.get('/chat');
   } catch (err: any) {
@@ -17,7 +51,7 @@ export const fetchChats = createAsyncThunk('chat/fetchChats', async (_, thunkAPI
   }
 });
 
-export const fetchMessages = createAsyncThunk('chat/fetchMessages', async (chatId, thunkAPI) => {
+export const fetchMessages = createAsyncThunk<Message[], string>('chat/fetchMessages', async (chatId, thunkAPI) => {
   try {
     return await api.get(`/message/${chatId}`);
   } catch (err: any) {
@@ -25,7 +59,7 @@ export const fetchMessages = createAsyncThunk('chat/fetchMessages', async (chatI
   }
 });
 
-export const sendMessage = createAsyncThunk('chat/sendMessage', async ({ chatId, content, type }, thunkAPI) => {
+export const sendMessage = createAsyncThunk<Message, { chatId: string; content: string; type: string }>('chat/sendMessage', async ({ chatId, content, type }, thunkAPI) => {
   try {
     return await api.post('/message', { chatId, content, type });
   } catch (err: any) {

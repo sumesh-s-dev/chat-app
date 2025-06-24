@@ -1,6 +1,6 @@
-import { io, Socket } from 'socket.io-client';
+import io from 'socket.io-client';
 
-let socket: Socket | null = null;
+let socket: any = null;
 
 export function connectSocket(token: string) {
   if (socket) return socket;
