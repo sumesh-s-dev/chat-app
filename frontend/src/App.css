@@ -36,3 +36,53 @@
     transform: rotate(360deg);
   }
 }
+
+.auth-container {
+  max-width: 350px;
+  margin: 60px auto;
+  padding: 2rem 2.5rem;
+  background: #222;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.auth-container input {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.7rem;
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+}
+.auth-container button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background: #61dafb;
+  color: #222;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.auth-container .error {
+  color: #ff6b6b;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+.auth-container p {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+.auth-container p button {
+  background: none;
+  color: #61dafb;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 1rem;
+  padding: 0;
+}
